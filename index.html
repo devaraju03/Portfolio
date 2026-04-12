@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devaraju Putchigalla | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --bg: #ffffff;
+            --text: #1f2937;
+            --text-muted: #6b7280;
+            --card-bg: #f9fafb;
+            --border: #e5e7eb;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark-mode {
+            --bg: #030712;
+            --text: #f9fafb;
+            --text-muted: #9ca3af;
+            --card-bg: #111827;
+            --border: #374151;
+            --nav-bg: rgba(3, 7, 18, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Components --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 100px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        #theme-toggle {
+            cursor: pointer;
+            background: none;
+            border: 1px solid var(--border);
+            padding: 0.5rem;
+            border-radius: 8px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        /* --- Projects Grid --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 16px;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: var(--border);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* --- Skills --- */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .skill-chip {
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        /* --- Education/Experience --- */
+        .timeline {
+            border-left: 2px solid var(--border);
+            margin-left: 1rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.7rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .date {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">DP</div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#experience">Education</a>
+                <a href="#contact">Contact</a>
+                <button id="theme-toggle">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="container hero">
+        <h1>Devaraju Putchigalla</h1>
+        <p>Aspiring Software Developer | Web Developer building scalable and user-friendly digital experiences.</p>
+        <div style="display: flex; gap: 1rem;">
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+            <a href="mailto:Doyourownwork.03@gmail.com" class="btn" style="border: 1px solid var(--border)">Get in Touch</a>
+        </div>
+    </header>
+
+    <section id="about" class="container section">
+        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">About Me</h2>
+        <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 800px;">
+            I am a passionate Computer Science graduate with a strong interest in web development and modern technologies. I enjoy building responsive and user-friendly applications while focusing on clean design and performance. I have hands-on experience through projects, including a secure cloud storage system using encryption techniques. I am always eager to learn, adapt, and contribute to innovative solutions in the tech industry.
+        </p>
+        
+        <div style="margin-top: 4rem;">
+            <h3 style="margin-bottom: 1.5rem;">Skills</h3>
+            <div class="skills-container" id="skills-list">
+                </div>
+        </div>
+    </section>
+
+    <section id="projects" class="container section">
+        <h2 style="font-size: 2rem;">Featured Projects</h2>
+        <div class="grid" id="github-repos">
+            <div class="card">
+                <h3>Loading Projects...</h3>
+                <p>Fetching latest repositories from GitHub.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="container section">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+            <div>
+                <h2 style="margin-bottom: 2rem;">Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="date">2022 — 2026</span>
+                        <h4>B.Tech (Computer Science)</h4>
+                        <p>Priyadarshini Institute of Technology & Management, JNTU Kakinada</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="date">2020 — 2022</span>
+                        <h4>Intermediate (MPC)</h4>
+                        <p>APSWRES Jr College, Nizampatnam</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="date">2020</span>
+                        <h4>SSC</h4>
+                        <p>APSWRES Boys High School, Nizampatnam</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h2 style="margin-bottom: 2rem;">Experience</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="date">Present</span>
+                        <h4>Fresher</h4>
+                        <p>Ready to contribute and build professional software solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="container section" style="text-align: center;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Let's Build Something Together</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Currently looking for new opportunities.</p>
+        <div style="display: flex; justify-content: center; gap: 2rem;">
+            <a href="https://github.com/devaraju03" target="_blank" style="color: var(--text); text-decoration: none; font-weight: 600;">GitHub</a>
+            <a href="https://www.linkedin.com/in/putchigalla-devaraju-95862639a" target="_blank" style="color: var(--text); text-decoration: none; font-weight: 600;">LinkedIn</a>
+            <a href="mailto:Doyourownwork.03@gmail.com" style="color: var(--text); text-decoration: none; font-weight: 600;">Email</a>
+        </div>
+    </section>
+
+    <footer class="container">
+        <p>&copy; 2026 Devaraju Putchigalla. Built with Clean Code & Passion.</p>
+    </footer>
+
+    <script>
+        // Dark Mode Toggle
+        const themeBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            themeBtn.innerText = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // Scroll Reveal Animation
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => observer.observe(section));
+
+        // GitHub API Integration
+        async function fetchRepos() {
+            const repoContainer = document.getElementById('github-repos');
+            const skillsList = document.getElementById('skills-list');
+            
+            // Hardcoded skills based on profile + common web dev stacks
+            const coreSkills = ["JavaScript", "HTML/CSS", "Web Development", "Cloud Security", "Cryptography", "Git", "Responsive Design", "UI/UX"];
+            
+            try {
+                const response = await fetch('https://api.github.com/users/devaraju03/repos?sort=updated&per_page=6');
+                const repos = await response.json();
+                
+                repoContainer.innerHTML = '';
+                let languages = new Set(coreSkills);
+
+                if (repos.length > 0) {
+                    repos.forEach(repo => {
+                        if (repo.language) languages.add(repo.language);
+                        
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        card.innerHTML = `
+                            <h3>${repo.name.replace(/-/g, ' ')}</h3>
+                            <p>${repo.description || 'A software development project focusing on clean architecture and efficiency.'}</p>
+                            <div class="tag-container">
+                                <span class="tag">${repo.language || 'Code'}</span>
+                                <a href="${repo.html_url}" target="_blank" style="font-size: 0.75rem; color: var(--primary); margin-left: auto; text-decoration: none; font-weight: 700;">Source →</a>
+                            </div>
+                        `;
+                        repoContainer.appendChild(card);
+                    });
+                }
+
+                // Populate Skills
+                languages.forEach(lang => {
+                    const chip = document.createElement('div');
+                    chip.className = 'skill-chip';
+                    chip.innerText = lang;
+                    skillsList.appendChild(chip);
+                });
+
+            } catch (error) {
+                repoContainer.innerHTML = '<p>GitHub repos could not be loaded at this time.</p>';
+            }
+        }
+
+        fetchRepos();
+    </script>
+</body>
+</html>
+
